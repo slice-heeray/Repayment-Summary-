@@ -9,54 +9,27 @@ import UIKit
 import SnapKit
 
 class VideoListVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
-    func numberOfSections(in tableView: UITableView) -> Int{
-        return tableCellcontent.count + 1
-    }
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 1
-    }
-    func tableView(_ tableView: UITableView,viewForFooterInSection section: Int) -> UIView?{
-        let view = UIView()
-        return view
-    }
-    func tableView(_ tableView: UITableView,heightForFooterInSection section: Int)-> CGFloat{
-        if section == 3{
-            return 0
-        }
-        if section == 2{
-            return 34
-        }
-        return 16
-    }
+    
+    let arrow = UIButton()
+    let repayLabel = UILabel()
+    let Viewsh = UIView()
+    let View1 = UIView()
+    let Image = UIImage(named: "Image11")
+    let ImageView = UIImageView()
+    let ImageLabel1 = UILabel()
+    let Imagelabel2 = UILabel()
+    let TableView = UITableView()
+    let line1 = LineView()
+    let line2 = LineView()
+    let slicebillbutton = UIButton()
+    let Paynowbutton = UIButton()
     var tableCellcontent = [Mylist]()
     var lastCellcontent1: String = ""
     var lastCellContent2: String = ""
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = TableView.dequeueReusableCell(withIdentifier: "Table", for: indexPath) as! TableCell
-        if indexPath.section == tableCellcontent.count{
-            cell.Label1.text = lastCellcontent1
-            cell.Label2.text = lastCellContent2
-            cell.Label1.font = UIFont.systemFont(ofSize: 14, weight: .bold)
-            cell.Label2.font = UIFont.systemFont(ofSize: 16, weight: .bold)
-            
-        }
-        else {
-            print(indexPath.section)
-           cell.Label1.text = tableCellcontent[indexPath.section].leftLabel
-           cell.Label2.text = tableCellcontent[indexPath.section].rightLabel
-            cell.Label1.font = UIFont.systemFont(ofSize: 14)
-            cell.Label2.font = UIFont.systemFont(ofSize: 14)
-            cell.SetImage()
-        }
-        cell.backgroundColor = .clear
-        return cell
-    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         let url = "https://mocki.io/v1/8d9eb626-ff85-4550-8f4e-51a972f2b179"
-        ConfigureViewsh()
-        ConfigureView1()
         ConfigureTableView()
         Configurelines()
         ConfigureslicebillButton()
@@ -66,16 +39,57 @@ class VideoListVC: UIViewController, UITableViewDelegate, UITableViewDataSource 
         Configurearrow()
         ConfigurerepayLabel()
         getData(from: url)
-        
     }
-     override func viewDidLayoutSubviews() {
+    
+    override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         ConfigureViewsh()
-         ConfigureView1()
+        ConfigureView1()
     }
-    let arrow = UIButton()
+    
+    func numberOfSections(in tableView: UITableView) -> Int{
+        return tableCellcontent.count + 1
+    }
+    
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return 1
+    }
+    
+    func tableView(_ tableView: UITableView,viewForFooterInSection section: Int) -> UIView?{
+        let view = UIView()
+        return view
+    }
+    
+    func tableView(_ tableView: UITableView,heightForFooterInSection section: Int)-> CGFloat{
+        if section == tableCellcontent.count{
+            return 0
+        }
+        if section == (tableCellcontent.count - 1){
+            return 34
+        }
+        return 16
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = TableView.dequeueReusableCell(withIdentifier: "Table", for: indexPath) as! TableCell
+        if indexPath.section == tableCellcontent.count{
+            cell.Label1.text = lastCellcontent1
+            cell.Label2.text = lastCellContent2
+            cell.Label1.font = UIFont.systemFont(ofSize: 14, weight: .bold)
+            cell.Label2.font = UIFont.systemFont(ofSize: 16, weight: .bold)
+        }
+        else {
+            cell.Label1.text = tableCellcontent[indexPath.section].leftLabel
+            cell.Label2.text = tableCellcontent[indexPath.section].rightLabel
+            cell.Label1.font = UIFont.systemFont(ofSize: 14)
+            cell.Label2.font = UIFont.systemFont(ofSize: 14)
+            cell.SetImage()
+        }
+        cell.backgroundColor = .clear
+        return cell
+    }
+    
     func Configurearrow(){
-        print("hello")
         view.addSubview(arrow)
         let buttonImage = UIImage(named: "Icon2")
         arrow.setImage(buttonImage, for: .normal)
@@ -86,7 +100,7 @@ class VideoListVC: UIViewController, UITableViewDelegate, UITableViewDataSource 
             make.height.equalTo(48)
         }
     }
-    let repayLabel = UILabel()
+    
     func ConfigurerepayLabel(){
         view.addSubview(repayLabel)
         repayLabel.font = UIFont.systemFont(ofSize: 18, weight: .bold)
@@ -96,9 +110,8 @@ class VideoListVC: UIViewController, UITableViewDelegate, UITableViewDataSource 
             make.width.equalTo(276)
             make.height.equalTo(48)
         }
-        
     }
-    let Viewsh = UIView()
+    
     func ConfigureViewsh(){
         view.addSubview(Viewsh)
         Viewsh.snp.makeConstraints{make in
@@ -115,9 +128,8 @@ class VideoListVC: UIViewController, UITableViewDelegate, UITableViewDataSource 
         Viewsh.layer.shadowOffset = CGSize(width: 0, height: -2)
         Viewsh.layer.cornerRadius = 30
         Viewsh.layer.maskedCorners = [.layerMaxXMinYCorner, .layerMinXMinYCorner]
-
     }
-    let View1 = UIView()
+    
     func ConfigureView1(){
         view.addSubview(View1)
         self.View1.layer.borderWidth = 1
@@ -134,8 +146,6 @@ class VideoListVC: UIViewController, UITableViewDelegate, UITableViewDataSource 
         }
     }
     
-    let Image = UIImage(named: "Image11")
-    let ImageView = UIImageView()
     func ConfigureImage(){
         ImageView.image = Image
         ImageView.contentMode = UIView.ContentMode.scaleAspectFill
@@ -153,8 +163,7 @@ class VideoListVC: UIViewController, UITableViewDelegate, UITableViewDataSource 
         }
         
     }
-    let ImageLabel1 = UILabel()
-    let Imagelabel2 = UILabel()
+    
     func ConfigureImagelabels(){
         ImageView.addSubview(Imagelabel2)
         ImageView.addSubview(ImageLabel1)
@@ -179,10 +188,8 @@ class VideoListVC: UIViewController, UITableViewDelegate, UITableViewDataSource 
             make.width.equalTo(82)
             make.height.equalTo(12)
         }
-        
     }
     
-    let TableView = UITableView()
     func ConfigureTableView(){
         View1.addSubview(TableView)
         setTableViewDelegate()
@@ -198,14 +205,13 @@ class VideoListVC: UIViewController, UITableViewDelegate, UITableViewDataSource 
             
         }
     }
+    
     func setTableViewDelegate(){
         TableView.delegate = self
         TableView.dataSource = self
         TableView.register(TableCell.self, forCellReuseIdentifier: "Table")
     }
     
-    let line1 = LineView()
-    let line2 = LineView()
     func Configurelines(){
         TableView.addSubview(line1)
         View1.addSubview(line2)
@@ -216,7 +222,6 @@ class VideoListVC: UIViewController, UITableViewDelegate, UITableViewDataSource 
             make.height.equalTo(0.3)
         }
         line2.pattern = [6.0,6.0]
-       // line2.backgroundColor = .white
         line2.snp.makeConstraints{make in
             make.leading.equalToSuperview().offset(18)
             make.top.equalToSuperview().offset(273)
@@ -224,7 +229,7 @@ class VideoListVC: UIViewController, UITableViewDelegate, UITableViewDataSource 
             make.height.equalTo(0.2)
         }
     }
-    let slicebillbutton = UIButton()
+    
     func ConfigureslicebillButton(){
         View1.addSubview(slicebillbutton)
         slicebillbutton.setTitle("Slice bill", for: .normal)
@@ -237,10 +242,8 @@ class VideoListVC: UIViewController, UITableViewDelegate, UITableViewDataSource 
             make.height.equalTo(36)
             make.width.equalTo(91)
         }
-        
     }
     
-    let Paynowbutton = UIButton()
     func ConfigurePaynowButton(){
         view.addSubview(Paynowbutton)
         Paynowbutton.setTitleColor(.white, for: .normal)
@@ -255,39 +258,43 @@ class VideoListVC: UIViewController, UITableViewDelegate, UITableViewDataSource 
         }
     }
     
-    
     struct Response: Codable{
-            let screenTitle: String
-            let banner: Mybanner
-            let list: [Mylist]
-            let summaryListItem: MysummaryListItem
-            let cta: Mycta
+        let screenTitle: String
+        let banner: Mybanner
+        let list: [Mylist]
+        let summaryListItem: MysummaryListItem
+        let cta: Mycta
+    }
+    
+    struct Mybanner: Codable{
+        let title: String
+        let subtext: String
+    }
+    
+    struct Mylist: Codable{
+        let leftLabel: String
+        let rightLabel: String
+    }
+    
+    struct MysummaryListItem: Codable{
+        let leftLabel: String
+        let rightLabel: String
+    }
+    
+    struct Mycta: Codable{
+        let text: String
+    }
+    
+    private func getData(from url: String){
+        guard let url = URL(string: url) else {
+            return
         }
-        struct Mybanner: Codable{
-            let title: String
-            let subtext: String
-        }
-        struct Mylist: Codable{
-            let leftLabel: String
-            let rightLabel: String
-        }
-        struct MysummaryListItem: Codable{
-            let leftLabel: String
-            let rightLabel: String
-        }
-        struct Mycta: Codable{
-            let text: String
-        }
-        private func getData(from url: String){
-            guard let url = URL(string: url) else {
+        let task = URLSession.shared.dataTask(with: url, completionHandler: { [weak self] data, response, error in
+            guard let data = data, error == nil else {
+                print("wrong")
                 return
             }
-            let task = URLSession.shared.dataTask(with: url, completionHandler: { [weak self] data, response, error in
-                guard let data = data, error == nil else {
-                    print("wrong")
-                    return
-                }
-                DispatchQueue.main.async { var result: Response?
+            DispatchQueue.main.async { var result: Response?
                 do{
                     result = try JSONDecoder().decode(Response.self, from: data)
                 }
@@ -298,21 +305,21 @@ class VideoListVC: UIViewController, UITableViewDelegate, UITableViewDataSource 
                     return
                 }
                 self?.datatake(with: json)
-                }
-            })
-                task.resume()
+            }
+        })
+        task.resume()
+        
+    }
     
-        }
-
-        func datatake(with data:Response){
-            repayLabel.text = data.screenTitle
-            tableCellcontent = data.list
-            ImageLabel1.text = data.banner.title
-            Imagelabel2.text = data.banner.subtext
-           Paynowbutton.setTitle(data.cta.text, for: .normal)
-            lastCellcontent1 = data.summaryListItem.leftLabel
-            lastCellContent2 = data.summaryListItem.rightLabel
-            TableView.reloadData()
-        }
+    func datatake(with data:Response){
+        repayLabel.text = data.screenTitle
+        tableCellcontent = data.list
+        ImageLabel1.text = data.banner.title
+        Imagelabel2.text = data.banner.subtext
+        Paynowbutton.setTitle(data.cta.text, for: .normal)
+        lastCellcontent1 = data.summaryListItem.leftLabel
+        lastCellContent2 = data.summaryListItem.rightLabel
+        TableView.reloadData()
+    }
     
 }
